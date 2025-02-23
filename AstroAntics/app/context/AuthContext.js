@@ -43,13 +43,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (token, userData) => {
-    // Similar to login
-    await AsyncStorage.setItem('token', token);
-    await AsyncStorage.setItem('user', JSON.stringify(userData));
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    setUser(userData);
+  const register = async (email, password, username) => {
+    try {
+      const { data } = await api.post('/auth/register', { email, password, username });
+      await AsyncStorage.setItem('token', data.token);
+      await AsyncStorage.setItem('user', JSON.stringify(data.user));
+      api.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+      setUser(data.user);
+      return true; // Return success status
+    } catch (error) {
+      console.error('Login error:', error);
+      return false; // Return failure status
+    }
   };
+
+  // const register = async (token, userData) => {
+  //   // Similar to login
+  //   await AsyncStorage.setItem('token', token);
+  //   await AsyncStorage.setItem('user', JSON.stringify(userData));
+  //   api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  //   setUser(userData);
+  // };
 
   const logout = async () => {
     await AsyncStorage.removeItem('token');

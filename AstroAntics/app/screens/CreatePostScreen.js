@@ -3,6 +3,7 @@ import { Box, Text, Input, Button, TextArea, Select, Image } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import CosmicButton from '../components/CosmicButton';
 
 const CreatePostScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
@@ -50,7 +51,7 @@ const CreatePostScreen = ({ navigation }) => {
   };
 
   return (
-    <Box flex={1} p={4} bg="cosmicDark">
+    <Box flex={1} p={4} bg="cosmicDark" justifyContent="center" alignItems="center">
       <Input
         placeholder="Post Title"
         value={title}
@@ -84,7 +85,7 @@ const CreatePostScreen = ({ navigation }) => {
         <Select.Item label="Blackhole" value="blackhole" />
       </Select>
 
-      <Button onPress={pickImage} mt={4}>
+      <Button onPress={pickImage} mt={4} mb={4}>
         Upload Featured Image
       </Button>
 
@@ -98,7 +99,7 @@ const CreatePostScreen = ({ navigation }) => {
         />
       )}
 
-      <CosmicButton onPress={handleSubmit} mt={8}>
+      <CosmicButton onPress={handleSubmit}>
         Publish Post
       </CosmicButton>
     </Box>

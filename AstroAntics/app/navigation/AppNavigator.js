@@ -20,7 +20,7 @@ const AppNavigator = () => (
       component={LoginScreen}
       options={{ 
         presentation: 'modal',
-        headerShown: true,
+        headerShown: false,
         headerStyle: { backgroundColor: '#2E0854' },
         headerTintColor: '#E6E6FA'
       }}
@@ -30,7 +30,7 @@ const AppNavigator = () => (
       component={RegisterScreen} 
       options={{ 
         presentation: 'modal',
-        headerShown: true,
+        headerShown: false,
         headerStyle: { backgroundColor: '#2E0854' },
         headerTintColor: '#E6E6FA'
       }}
@@ -39,7 +39,7 @@ const AppNavigator = () => (
       name="PostDetail" 
       component={PostDetailScreen} 
       options={{ 
-        headerShown: true,
+        headerShown: false,
         headerStyle: { backgroundColor: '#2E0854' },
         headerTintColor: '#E6E6FA',
         title: 'Post Details'

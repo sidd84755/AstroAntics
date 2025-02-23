@@ -32,6 +32,7 @@ const CustomTabBar = () => {
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="home" size={24} color={color} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen 
@@ -41,6 +42,7 @@ const CustomTabBar = () => {
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="explore" size={24} color={color} />
           ),
+          headerShown: false,
         }}
       />
       {user?.role === 'admin' && (
@@ -51,6 +53,7 @@ const CustomTabBar = () => {
             tabBarIcon: ({ color }) => (
               <MaterialIcons name="add-circle" size={24} color={color} />
             ),
+            headerShown: false,
           }}
         />
       )}
@@ -61,6 +64,7 @@ const CustomTabBar = () => {
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="contact-support" size={24} color={color} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen 
@@ -70,6 +74,7 @@ const CustomTabBar = () => {
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="person" size={24} color={color} />
           ),
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

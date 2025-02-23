@@ -46,11 +46,6 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <Box flex={1} bg="cosmicDark">
-      {user?.role === 'admin' && (
-        <Button onPress={() => navigation.navigate('CreatePost')}>
-          Create New Post
-        </Button>
-      )}
       
       {loading ? (
         <Spinner color="nebulaPink" size="lg" />

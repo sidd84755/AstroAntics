@@ -10,7 +10,7 @@ const ProfileScreen = ({ navigation }) => {
       {user ? (
         <>
           <Text color="starDust" fontSize="2xl">Welcome, {user.username}</Text>
-          <Text color="starDust" mt={4}>Email: {user.role}</Text>
+          <Text color="starDust" mt={4}>Email: {user.email}</Text>
           <Button 
             mt={8} 
             colorScheme="purple"
