@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Text, Input, Button, TextArea, Select, Image } from 'native-base';
+import { Box, Input, Button, TextArea, Select, Image } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -8,6 +8,7 @@ import CosmicButton from '../components/CosmicButton';
 const CreatePostScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  // Initialize tags as an array.
   const [tags, setTags] = useState([]);
   const [image, setImage] = useState(null);
   const { user } = useAuth();
@@ -27,26 +28,22 @@ const CreatePostScreen = ({ navigation }) => {
 
   const handleSubmit = async () => {
     try {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('content', content);
-      formData.append('tags', JSON.stringify(tags));
+      // Prepare payload with title, content, and tags (an array)
+      const payload = {
+        title,
+        content,
+        tags,
+      };
+
+      // If an image is selected, include it (note: local URIs may need to be uploaded elsewhere)
       if (image) {
-        formData.append('featuredImage', {
-          uri: image,
-          type: 'image/jpeg',
-          name: 'post-image.jpg',
-        });
+        payload.featuredImage = image;
       }
 
-      await api.post('/posts', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      await api.post('/posts', payload);
       navigation.goBack();
     } catch (error) {
-      console.error('Post creation failed:', error);
+      console.error('Post creation failed:', error.response?.data || error.message);
     }
   };
 
@@ -59,7 +56,7 @@ const CreatePostScreen = ({ navigation }) => {
         color="starDust"
         mb={4}
       />
-      
+
       <TextArea
         placeholder="Write your cosmic thoughts..."
         value={content}
@@ -70,20 +67,43 @@ const CreatePostScreen = ({ navigation }) => {
       />
 
       <Select
-        selectedValue={tags}
+        // Remove the multiple prop and any selectedValue prop.
         minWidth="200"
-        accessibilityLabel="Choose Tags"
-        placeholder="Choose Tags"
+        accessibilityLabel="Choose Tag to Add"
+        placeholder="Choose Tag to Add"
         _selectedItem={{ bg: 'teal.600' }}
         mt={1}
-        onValueChange={itemValue => setTags(itemValue)}
-        multiple
+        onValueChange={itemValue => {
+          if (itemValue && !tags.includes(itemValue)) {
+            setTags([...tags, itemValue]);
+          }
+        }}
       >
         <Select.Item label="Nebula" value="nebula" />
         <Select.Item label="Galaxy" value="galaxy" />
         <Select.Item label="Stars" value="stars" />
         <Select.Item label="Blackhole" value="blackhole" />
       </Select>
+
+      {/* Display the selected tags */}
+      {tags.length > 0 && (
+        <Box mt={2}>
+          {tags.map((tag, index) => (
+            <Button
+              key={index}
+              variant="outline"
+              size="xs"
+              mb={1}
+              onPress={() => {
+                // Remove the tag when pressed
+                setTags(tags.filter(t => t !== tag));
+              }}
+            >
+              {tag}
+            </Button>
+          ))}
+        </Box>
+      )}
 
       <Button onPress={pickImage} mt={4} mb={4}>
         Upload Featured Image
